@@ -25,12 +25,21 @@ export default function StatsDisplay() {
 
     // Connect WebSocket for live updates
     wsClient.connect();
-    wsClient.on("stats_update", (data) => {
-      setStats(data.stats);
-    });
+
+    const handleStatsUpdate = (data: any) => {
+      console.log("Stats update received:", data);
+      if (data && data.stats) {
+        setStats(data.stats);
+      } else if (data) {
+        // Handle case where data is the stats directly
+        setStats(data);
+      }
+    };
+
+    wsClient.on("stats_update", handleStatsUpdate);
 
     return () => {
-      wsClient.off("stats_update", () => {});
+      wsClient.off("stats_update", handleStatsUpdate);
     };
   }, []);
 
@@ -72,9 +81,8 @@ export default function StatsDisplay() {
           positive={(stats.winRate || 0) >= 50}
         />
         <StatCard
-          title="Best Trade"
-          value={`$${(stats.bestTrade || 0).toFixed(2)}`}
-          positive
+          title="Total Volume"
+          value={`$${(stats.totalVolume || 0).toFixed(2)}`}
         />
       </div>
 

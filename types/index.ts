@@ -12,6 +12,7 @@ export interface TradingStats {
   totalProfit: number;
   totalLoss: number;
   netProfit: number;
+  totalVolume?: number;
   winRate: number;
   averageProfit: number;
   averageLoss: number;
