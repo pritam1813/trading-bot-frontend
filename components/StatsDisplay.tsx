@@ -59,18 +59,21 @@ export default function StatsDisplay() {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <StatCard
           title="Net Profit"
-          value={`$${stats.netProfit.toFixed(2)}`}
-          positive={stats.netProfit >= 0}
+          value={`$${(stats.netProfit || 0).toFixed(2)}`}
+          positive={(stats.netProfit || 0) >= 0}
         />
-        <StatCard title="Total Trades" value={stats.totalTrades.toString()} />
+        <StatCard
+          title="Total Trades"
+          value={(stats.totalTrades || 0).toString()}
+        />
         <StatCard
           title="Win Rate"
-          value={`${stats.winRate.toFixed(1)}%`}
-          positive={stats.winRate >= 50}
+          value={`${(stats.winRate || 0).toFixed(1)}%`}
+          positive={(stats.winRate || 0) >= 50}
         />
         <StatCard
           title="Best Trade"
-          value={`$${stats.bestTrade.toFixed(2)}`}
+          value={`$${(stats.bestTrade || 0).toFixed(2)}`}
           positive
         />
       </div>
@@ -88,23 +91,26 @@ export default function StatsDisplay() {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-          <StatItem label="Profitable Trades" value={stats.profitableTrades} />
-          <StatItem label="Loss Trades" value={stats.lossTrades} />
+          <StatItem
+            label="Profitable Trades"
+            value={stats.profitableTrades || 0}
+          />
+          <StatItem label="Loss Trades" value={stats.lossTrades || 0} />
           <StatItem
             label="Total Profit"
-            value={`$${stats.totalProfit.toFixed(2)}`}
+            value={`$${(stats.totalProfit || 0).toFixed(2)}`}
           />
           <StatItem
             label="Total Loss"
-            value={`$${stats.totalLoss.toFixed(2)}`}
+            value={`$${(stats.totalLoss || 0).toFixed(2)}`}
           />
           <StatItem
             label="Avg Profit"
-            value={`$${stats.averageProfit.toFixed(2)}`}
+            value={`$${(stats.averageProfit || 0).toFixed(2)}`}
           />
           <StatItem
             label="Avg Loss"
-            value={`$${stats.averageLoss.toFixed(2)}`}
+            value={`$${(stats.averageLoss || 0).toFixed(2)}`}
           />
         </div>
       </div>
@@ -124,7 +130,7 @@ export default function StatsDisplay() {
               </tr>
             </thead>
             <tbody>
-              {stats.trades
+              {(stats.trades || [])
                 .slice(-10)
                 .reverse()
                 .map((trade, i) => (
